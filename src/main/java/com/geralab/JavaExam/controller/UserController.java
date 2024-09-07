@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/additional-info")
-    public List<User> getAllUsersOlderThanRequestAge(@RequestParam(name = "age", required = false) Integer age) {
-        return this.userService.getAllUsersOlderThanRequestAge(age);
+    public List<User> getAllUsersOlderOrEqualThanRequestAge(@RequestParam(name = "age", required = false) Integer age) {
+        return this.userService.getAllUsersOlderOrEqualThanRequestAge(age);
     }
 }

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.geralab.JavaExam";
+option java_outer_classname = "ServiceProto";
+
+service UserService {
+  rpc GetUsers(UserRequest) returns (UserResponse);
+  rpc AddUser(AddUserRequest) returns (AddUserResponse);
+  rpc GetAllUsersOlderOrEqualThanRequestAge(AdditionalUserInfoRequest) returns (AdditionalUserInfoResponse);
+}
+
+message UserRequest {
+}
+
+message UserResponse {
+  repeated User users= 1;
+}
+
+message AddUserRequest {
+  string first_name = 1;
+  int32 age = 2;
+  Country country = 3;
+}
+
+message AddUserResponse {
+  User user = 1;
+  string message = 2;
+}
+
+message AdditionalUserInfoRequest {
+  int32 age = 1;
+}
+
+message AdditionalUserInfoResponse {
+  repeated User users = 1;
+}
+
+message User {
+  int64 id = 1;
+  string first_name = 2;
+  int32 age = 3;
+  Country country = 4;
+}
+
+enum Country {
+    RUSSIA = 0;
+    AUSTRALIA = 1;
+    CANADA = 2;
+    INDIA = 3;
+    JAPAN = 4;
+}

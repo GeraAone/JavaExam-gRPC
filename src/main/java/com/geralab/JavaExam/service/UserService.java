@@ -22,7 +22,7 @@ public class UserService {
         }
     }
 
-    public List<User> getAllUsersOlderThanRequestAge(Integer age){
+    public List<User> getAllUsersOlderOrEqualThanRequestAge(Integer age){
         try{
             return userRepository.findAllByAgeIsGreaterThanEqual(age);
         }
