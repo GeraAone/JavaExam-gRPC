@@ -18,7 +18,7 @@ public class UserService {
             return userRepository.findAll();
         }
         catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Users cannot be found!");
+            throw new RuntimeException("Users cannot be found!");
         }
     }
 
@@ -26,7 +26,7 @@ public class UserService {
         try{
             return userRepository.findAllByAgeIsGreaterThanEqual(age);
         }
-        catch (RuntimeException e) {
+        catch (NoSuchElementException e) {
             throw new RuntimeException("Users cannot be found!");
         }
     }
