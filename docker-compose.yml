@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:15.3
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    command: -p 5432
+
+
+#    networks:
+#      - app-network
+#
+#  flyway:
+#    image: flyway/flyway:latest
+#    container_name: flyway-migrations
+#    command: -url=jdbc:postgresql://postgres-db:5432/postgres -user=user -password=password -locations=filesystem:/sql migrate
+#    depends_on:
+#      - postgres
+#    volumes:
+#      - ./sql:/flyway/sql
+#    networks:
+#      - app-network
+#
+#networks:
+#  app-network:
+#    driver: bridge
