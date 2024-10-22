@@ -6,6 +6,7 @@ import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
              "WHERE users.age > :age " +
              "AND users.country = :country"
              , nativeQuery = true)
-     List<User> findUserFilteredByAgeAndCountry(Integer age, String country);
+     List<User> findUserFilteredByAgeAndCountry(@Param("age") Integer age,
+                                                @Param("country") String country);
 }

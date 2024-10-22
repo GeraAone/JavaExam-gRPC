@@ -1,10 +1,12 @@
 package com.geralab.JavaExam.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.lang.NonNull;
 
 import java.time.OffsetDateTime;
@@ -14,6 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @Data
+@SuperBuilder
 @NoArgsConstructor
 public class User {
     @Id
@@ -22,18 +25,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq_")
     private Long id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     private Integer age;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
     private Country country;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false)
     private OffsetDateTime createdAt ;
+
+//    @OneToMany(mappedBy = "course", orphanRemoval = true,  cascade = CascadeType.ALL)
+//    private List<Lesson> lessons;
+
+//    public void addLesson(Lesson lesson) {
+//        lesson.setCourse(this);
+//        this.lessons.add(lesson);
+//    }
 
     public User(String firstName, Integer age, Country country) {
         this.firstName = firstName;

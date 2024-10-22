@@ -7,17 +7,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
     public User toEntity(UserDto dto) {
-        return new User(
-                dto.getFirstName(),
-                dto.getAge(),
-                dto.getCountry());
+        return User.builder()
+                .age(dto.getAge())
+                .firstName(dto.getFirstName())
+                .country(dto.getCountry())
+                .build();
     }
 
     public UserDto toDto(User entity) {
-        return new UserDto(
-                entity.getFirstName(),
-                entity.getAge(),
-                entity.getCountry(),
-                entity.getCreatedAt());
+        return UserDto.builder()
+                .age(entity.getAge())
+                .firstName(entity.getFirstName())
+                .country(entity.getCountry())
+                .createdAt(entity.getCreatedAt())
+                .build();
     }
 }

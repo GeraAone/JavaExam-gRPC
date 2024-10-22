@@ -5,10 +5,10 @@ import com.geralab.JavaExam.entity.Country;
 import com.geralab.JavaExam.entity.User;
 import com.geralab.JavaExam.mapper.UserMapper;
 import com.geralab.JavaExam.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,15 @@ public class JpaUserServiceImpl implements UserService{
     public final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @Transactional()
+    @Transactional(readOnly = true)
     public List<UserDto> getAllUsers(){
         try{
             List<UserDto> list = new ArrayList<>();
-            userRepository.findAll().forEach(user ->
+            List<User> userList = userRepository.findAll();
+            if(userList.isEmpty()) {
+                throw new NoSuchElementException();
+            }
+            userList.forEach(user ->
                 list.add(userMapper.toDto(user)));
             return list;
         }
@@ -34,11 +38,15 @@ public class JpaUserServiceImpl implements UserService{
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<UserDto> getAllUsersOlderThanRequestAge(Integer age){
         try{
             List<UserDto> list = new ArrayList<>();
-            userRepository.findAllByAgeIsGreaterThanEqual(age).forEach(user ->
+            List<User> userList = userRepository.findAllByAgeIsGreaterThanEqual(age);
+            if(userList.isEmpty()) {
+                throw new NoSuchElementException();
+            }
+            userList.forEach(user ->
                 list.add(userMapper.toDto(user)));
             return list;
         }
@@ -47,7 +55,7 @@ public class JpaUserServiceImpl implements UserService{
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<UserDto> getAllUsersOfCurrentAge(Integer age) {
         try{
             List<UserDto> list = new ArrayList<>();
@@ -64,7 +72,7 @@ public class JpaUserServiceImpl implements UserService{
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<UserDto> getAllUsersFilteredByAgeAndCountry(Integer age, Country country){
         try{
             List<UserDto> list = new ArrayList<>();
@@ -88,8 +96,8 @@ public class JpaUserServiceImpl implements UserService{
             User user = userRepository.save(userMapper.toEntity(newUser));
             return userMapper.toDto(user);
         }
-        catch(RuntimeException e) {
-            throw new NoSuchElementException("User cannot be saved!");
+        catch(IllegalArgumentException e) {
+            throw new IllegalArgumentException("User cannot be saved!");
         }
     }
 
