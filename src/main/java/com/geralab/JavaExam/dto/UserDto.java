@@ -1,6 +1,5 @@
 package com.geralab.JavaExam.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.geralab.JavaExam.entity.Country;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

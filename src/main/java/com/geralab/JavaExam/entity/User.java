@@ -12,9 +12,10 @@ import org.springframework.lang.NonNull;
 import java.time.OffsetDateTime;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -25,18 +26,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq_")
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "age", nullable = false)
+    @Column(name = "age")
     private Integer age;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "email")
+    private String email;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "country", nullable = false)
+    @Column(name = "country")
     private Country country;
 
     @Column(name = "created_at", insertable = false)
     private OffsetDateTime createdAt ;
+
+    @ManyToMany()
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
 //    @OneToMany(mappedBy = "course", orphanRemoval = true,  cascade = CascadeType.ALL)
 //    private List<Lesson> lessons;
